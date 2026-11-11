@@ -34,3 +34,5 @@ desktop.ini
 *.local.json
 .env
 .env.*
+
+gh-auth*.txt
