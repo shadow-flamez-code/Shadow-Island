@@ -36,3 +36,6 @@ desktop.ini
 .env.*
 
 gh-auth*.txt
+
+# raw preview captures (the polished shots are committed)
+docs/screenshots/raw-*.png

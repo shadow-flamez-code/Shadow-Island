@@ -279,7 +279,9 @@
       { id: "custom_discord", name: "Discord", icon: "gamepad", builtin: false },
     ];
 
-    let activities = DI.mockIdle ? [] : [
+    const previewParams = new URLSearchParams(window.location.search);
+    const hideActivities = previewParams.get("noActivities") === "1";
+    let activities = DI.mockIdle || hideActivities ? [] : [
       {
         id: "demo-transfer",
         title: "Transferring · Steam update",

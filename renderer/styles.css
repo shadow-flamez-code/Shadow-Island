@@ -5900,6 +5900,13 @@ body.light .hello-copy b {
   white-space: nowrap;
 }
 
+body.is-opaque {
+  background:
+    radial-gradient(900px 480px at 50% -8%, rgba(124, 58, 237, 0.22), transparent 62%),
+    radial-gradient(700px 420px at 12% 108%, rgba(34, 211, 238, 0.1), transparent 60%),
+    linear-gradient(180deg, #0a0812 0%, #06060c 58%, #040409 100%);
+}
+
 /* ============================================================
    SETTINGS-DRIVEN BODY STATES
    ============================================================ */

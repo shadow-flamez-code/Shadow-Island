@@ -378,9 +378,13 @@
 
   function initTools() {
     if (DI.isPreview && !DI.mockIdle) {
-      timer.remaining = 1122;
-      timer.running = true;
-      timer.endsAt = Date.now() + 1122 * 1000;
+      const previewParams = new URLSearchParams(window.location.search);
+      const mediaOnly = previewParams.get("noActivities") === "1";
+      if (!mediaOnly) {
+        timer.remaining = 1122;
+        timer.running = true;
+        timer.endsAt = Date.now() + 1122 * 1000;
+      }
     }
     renderFiles();
     renderClipboard();

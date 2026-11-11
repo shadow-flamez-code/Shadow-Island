@@ -1,6 +1,7 @@
 "use strict";
 
-/* Loads the renderer in preview mode and prints console errors/warnings. */
+/* Loads the renderer in preview mode and prints console errors plus a small
+   state dump. Usage: electron tools-console.js <tab> */
 const { app, BrowserWindow } = require("electron");
 const path = require("node:path");
 
@@ -19,35 +20,31 @@ app.whenReady().then(async () => {
   });
   win.webContents.on("console-message", (event) => {
     const level = event.level ?? "";
-    if (level === "error" || level === "warning") {
-      console.log(`[${level}]`, event.message);
-    }
+    if (level === "error" || level === "warning") console.log(`[${level}]`, event.message);
   });
   await win.loadFile(path.join(__dirname, "renderer", "index.html"), {
     query: { preview: tab },
   });
   await new Promise((resolve) => setTimeout(resolve, 3500));
   const state = await win.webContents.executeJavaScript(`(() => {
-    const p = document.querySelector('#panel');
-    const cs = getComputedStyle(p);
-    const head = document.querySelector('.panel-head');
-    const rail = document.querySelector('.status-rail');
-    const page = document.querySelector('.page.is-active');
-    const grid = document.querySelector('.settings-grid');
-    const cards = [...document.querySelectorAll('.settings-card')].map((c) => {
-      const r = c.getBoundingClientRect();
-      return { t: Math.round(r.top), h: Math.round(r.height), w: Math.round(r.width) };
-    });
+    const p = document.querySelector('#compact');
+    const clock = document.querySelector('#compactIdleTime');
+    const art = document.querySelector('#compactArtImg');
+    const meta = document.querySelector('#compactMeta');
+    const cs = (el) => el ? getComputedStyle(el) : null;
     return JSON.stringify({
-      bodyClass: document.body.className,
-      panelOpen: document.body.classList.contains('panel-open'),
-      clip: cs.clipPath,
-      opacity: cs.opacity,
-      head: head ? getComputedStyle(head).opacity : null,
-      rail: rail ? getComputedStyle(rail).opacity : null,
-      page: page ? { op: getComputedStyle(page).opacity, t: getComputedStyle(page).transform } : null,
-      grid: grid ? { h: grid.clientHeight, sh: grid.scrollHeight, rows: getComputedStyle(grid).gridTemplateRows } : null,
-      cards,
+      mode: p?.dataset.mode,
+      modeClasses: p?.className,
+      clockHtml: clock ? clock.innerHTML.slice(0, 120) : null,
+      clockOpacity: cs(clock)?.opacity,
+      clockText: clock?.textContent,
+      artSrc: art?.getAttribute('src')?.slice(0, 40),
+      artClasses: art?.className,
+      metaOpacity: cs(meta)?.opacity,
+      title: document.querySelector('#compactTitle')?.textContent,
+      idleDisplay: cs(document.querySelector('#compactIdle'))?.display,
+      media: DI.state.bridge.media?.title,
+      mockIdle: DI.mockIdle,
     });
   })()`);
   console.log("STATE", state);

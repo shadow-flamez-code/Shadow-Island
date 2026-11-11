@@ -13,6 +13,11 @@
   }
 
   document.body.classList.toggle("is-preview", DI.isPreview);
+  if (params.get("opaque") === "1") {
+    // Screenshot mode: paint a backdrop so the compositor renders the
+    // artwork into the capture instead of a transparent (empty) frame.
+    document.body.classList.add("is-opaque");
+  }
   if (params.get("light") === "1") {
     document.body.classList.add("light");
     DI.forcedLight = true;

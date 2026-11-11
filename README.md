@@ -3,9 +3,21 @@
 An iPhone-style **Dynamic Island for Windows** — a frameless, always-on-top overlay that sits at the
 top of the screen and turns your PC into something that feels like an iPhone: live media, lyrics,
 system vitals, tools and live activities, all inside a small neon capsule that expands on hover and
-opens into a full control center when you click it.
+unfolds into a full control center when you click it.
 
-![Shadow Island](renderer/wordmark.png)
+<p align="center">
+  <img src="docs/screenshots/idle-capsule.png" width="360" alt="The idle island capsule showing the rolling clock">
+  <img src="docs/screenshots/media-capsule.png" width="400" alt="The island capsule showing the current track">
+</p>
+
+<p align="center">
+  <img src="docs/screenshots/now.png" width="720" alt="NOW - live media, spectrum and synced lyrics">
+</p>
+
+| | | |
+| :--: | :--: | :--: |
+| <img src="docs/screenshots/core.png" width="360" alt="CORE - processor, memory, graphics, network, battery"> | <img src="docs/screenshots/tools.png" width="360" alt="TOOLS - drop shelf, clipboard and launcher"> | <img src="docs/screenshots/pulse.png" width="360" alt="PULSE - live activities"> |
+| <img src="docs/screenshots/link.png" width="360" alt="LINK - bluetooth devices"> | <img src="docs/screenshots/config.png" width="360" alt="CONFIG - accent, theme, island position and behaviour"> | |
 
 ---
 
@@ -82,8 +94,9 @@ src/system-bridge.js  supervises the three Python helpers and merges their state
 bridge/*.py           media (WinRT SMTC), volume (Core Audio), system (telemetry)
 renderer/index.html   island markup + SVG icon sprite
 renderer/styles.css   the complete visual system (dark glass, neon, light theme)
-renderer/js/*.js      core, media, system, tools, live, pill, settings, ambient, mock, boot
+renderer/js/*.js      core, media, system, tools, live, pill, dock, settings, visuals, extras, mock, boot
 assets/               app icon (.ico/.png) and tray icon
+docs/screenshots/     the screenshots used in this README
 ```
 
 ---
