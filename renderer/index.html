@@ -1,0 +1,761 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data: blob:; style-src 'self' 'unsafe-inline'; script-src 'self'; connect-src 'self'; font-src 'self' data:;" />
+    <title>Shadow Island</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <svg class="sprite" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+      <symbol id="i-play" viewBox="0 0 24 24"><path d="M8.5 5.8v12.4c0 .9 1 1.45 1.75.95l9.3-6.2c.62-.42.62-1.48 0-1.9l-9.3-6.2c-.75-.5-1.75.05-1.75.95z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></symbol>
+      <symbol id="i-pause" viewBox="0 0 24 24"><rect x="6.5" y="5" width="4" height="14" rx="1.6"/><rect x="13.5" y="5" width="4" height="14" rx="1.6"/></symbol>
+      <symbol id="i-prev" viewBox="0 0 24 24"><rect x="4.5" y="5" width="3" height="14" rx="1.5"/><path d="M20 6.2 11 12l9 5.8z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></symbol>
+      <symbol id="i-next" viewBox="0 0 24 24"><rect x="16.5" y="5" width="3" height="14" rx="1.5"/><path d="M4 6.2 13 12l-9 5.8z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></symbol>
+      <symbol id="i-volume" viewBox="0 0 24 24"><path d="M4 9.2v5.6c0 .7.55 1.2 1.2 1.2H8L13 19.4c.8.6 2 .05 2-.95V5.55c0-1-1.2-1.55-2-.95L8 8H5.2C4.55 8 4 8.5 4 9.2z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/><path d="M16.8 9a4.5 4.5 0 010 6M19.2 6.8a7.6 7.6 0 010 10.4" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round"/></symbol>
+      <symbol id="i-volume-off" viewBox="0 0 24 24"><path d="M4 9.2v5.6c0 .7.55 1.2 1.2 1.2H8L13 19.4c.8.6 2 .05 2-.95V5.55c0-1-1.2-1.55-2-.95L8 8H5.2C4.55 8 4 8.5 4 9.2z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/><path d="M16.5 9.5l5 5M21.5 9.5l-5 5" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round"/></symbol>
+      <symbol id="i-mic" viewBox="0 0 24 24"><rect x="9" y="2.5" width="6" height="11.5" rx="3"/><path d="M5.4 10.6a6.6 6.6 0 0013.2 0" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round"/><path d="M12 17.8V21M8.4 21h7.2" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round"/></symbol>
+      <symbol id="i-mic-off" viewBox="0 0 24 24"><rect x="9" y="2.5" width="6" height="11.5" rx="3"/><path d="M5.4 10.6a6.6 6.6 0 0013.2 0" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round"/><path d="M12 17.8V21M8.4 21h7.2" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round"/><path d="M4 4l16 16" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round"/></symbol>
+      <symbol id="i-music" viewBox="0 0 24 24"><path d="M9.2 17.8V5.6L19 3.6v11.6" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"/><circle cx="6.6" cy="17.8" r="2.7"/><circle cx="16.4" cy="15.2" r="2.7"/></symbol>
+      <symbol id="i-cpu" viewBox="0 0 24 24"><rect x="7" y="7" width="10" height="10" rx="2.4"/><rect x="9.8" y="9.8" width="4.4" height="4.4" rx="1.2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M9.5 3v2.6M14.5 3v2.6M9.5 18.4V21M14.5 18.4V21M3 9.5h2.6M3 14.5h2.6M18.4 9.5H21M18.4 14.5H21" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round"/></symbol>
+      <symbol id="i-memory" viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="10" rx="2.2"/><path d="M7 10v4M12 10v4M17 10v4" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/><path d="M6.5 17v3M12 17v3M17.5 17v3M6.5 4v3M12 4v3M17.5 4v3" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round"/></symbol>
+      <symbol id="i-gpu" viewBox="0 0 24 24"><rect x="3" y="6" width="14" height="12" rx="2.2"/><circle cx="8.6" cy="12" r="2.4" fill="none" stroke="currentColor" stroke-width="1.9"/><circle cx="8.6" cy="12" r="0.9"/><path d="M20 9.5v5M7 18v2M12.5 18v2" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round"/></symbol>
+      <symbol id="i-wifi" viewBox="0 0 24 24"><path d="M2.8 8.8a14.5 14.5 0 0118.4 0M5.6 12.3a10 10 0 0112.8 0M8.4 15.8a5.5 5.5 0 017.2 0" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><circle cx="12" cy="19.4" r="1.5"/></symbol>
+      <symbol id="i-battery" viewBox="0 0 24 24"><rect x="2.5" y="7.5" width="17.5" height="9" rx="2.4" fill="none" stroke="currentColor" stroke-width="2.2"/><rect x="21" y="10.5" width="2.4" height="3" rx="1.2"/><rect x="5" y="10" width="7" height="4" rx="1.2"/></symbol>
+      <symbol id="i-gauge" viewBox="0 0 24 24"><path d="M4.5 16a7.5 7.5 0 1115 0" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/><path d="M12.5 11.5 16 8l1.3 1.9-4.3 2.8z"/><circle cx="12" cy="16.4" r="1.6"/></symbol>
+      <symbol id="i-chevron-up" viewBox="0 0 24 24"><path d="M5.5 14.5 12 8l6.5 6.5" fill="none" stroke="currentColor" stroke-width="2.7" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+      <symbol id="i-chevron-down" viewBox="0 0 24 24"><path d="M5.5 9.5 12 16l6.5-6.5" fill="none" stroke="currentColor" stroke-width="2.7" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+      <symbol id="i-chevron-right" viewBox="0 0 24 24"><path d="M9.5 5.5 16 12l-6.5 6.5" fill="none" stroke="currentColor" stroke-width="2.7" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+      <symbol id="i-close" viewBox="0 0 24 24"><path d="M5.5 5.5l13 13M18.5 5.5l-13 13" fill="none" stroke="currentColor" stroke-width="2.7" stroke-linecap="round"/></symbol>
+      <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" fill="none" stroke="currentColor" stroke-width="2.7" stroke-linecap="round"/></symbol>
+      <symbol id="i-link" viewBox="0 0 24 24"><path d="M10.2 13.6a4.4 4.4 0 006.3 0l2.1-2.1a4.4 4.4 0 00-6.3-6.3l-1 1M13.8 10.4a4.4 4.4 0 00-6.3 0l-2.1 2.1a4.4 4.4 0 006.3 6.3l1-1" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></symbol>
+      <symbol id="i-folder" viewBox="0 0 24 24"><path d="M3.6 7.2a2 2 0 012-2H9l2 2.2h9.4a2 2 0 012 2V17a2 2 0 01-2 2H5.6a2 2 0 01-2-2z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/></symbol>
+      <symbol id="i-copy" viewBox="0 0 24 24"><rect x="9" y="9" width="11" height="11" rx="2.4" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="M15 9V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7a2 2 0 002 2h3" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></symbol>
+      <symbol id="i-clipboard" viewBox="0 0 24 24"><rect x="5" y="4.5" width="14" height="17" rx="2.4" fill="none" stroke="currentColor" stroke-width="2.2"/><rect x="9" y="2.5" width="6" height="3.4" rx="1.5"/><path d="M8.5 11h7M8.5 15h7M8.5 19h4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+      <symbol id="i-pin" viewBox="0 0 24 24"><path d="M9.2 3.2h5.6l-.9 5.6 2.6 2.6H7.5l2.6-2.6z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/><path d="M12 11.4v9.4" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round"/></symbol>
+      <symbol id="i-trash" viewBox="0 0 24 24"><path d="M4.5 7h15M9.5 7V5.2A1.2 1.2 0 0110.7 4h2.6a1.2 1.2 0 011.2 1.2V7M6.5 7l.9 12a2 2 0 002 1.8h5.2a2 2 0 002-1.8l.9-12M10 11v5.5M14 11v5.5" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+      <symbol id="i-check" viewBox="0 0 24 24"><path d="M4.5 13l4.5 4.5L19.5 7" fill="none" stroke="currentColor" stroke-width="2.9" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+      <symbol id="i-timer" viewBox="0 0 24 24"><circle cx="12" cy="13.5" r="7.5" fill="none" stroke="currentColor" stroke-width="2.4"/><path d="M12 9.8v3.9l2.6 1.9" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"/><path d="M9.5 1.8h5M12 1.8v3" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round"/></symbol>
+      <symbol id="i-stopwatch" viewBox="0 0 24 24"><circle cx="12" cy="14.5" r="6.8" fill="none" stroke="currentColor" stroke-width="2.4"/><path d="M12 11.2v3.6l2.4 1.7" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"/><path d="M10 2h4M12 2v3M18.2 7l2-2" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round"/></symbol>
+      <symbol id="i-activity" viewBox="0 0 24 24"><path d="M2.8 12h3.6l2-6.8 3.6 12.4 2-5.6h7.2" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+      <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 2.8l7.6 2.9v5.9c0 4.9-3.3 7.9-7.6 9.6-4.3-1.7-7.6-4.7-7.6-9.6V5.7z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/><path d="M8.8 12l2.2 2.2 4.2-4.4" fill="none" stroke="#0a0a12" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+      <symbol id="i-moon" viewBox="0 0 24 24"><path d="M20.5 14.6A8.2 8.2 0 019.4 3.5a8.2 8.2 0 1011.1 11.1z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/></symbol>
+      <symbol id="i-camera" viewBox="0 0 24 24"><path d="M4 8.5h2.7l1.9-2.3h6.8l1.9 2.3H20a1.6 1.6 0 011.6 1.6v8.3c0 1-.8 1.6-1.6 1.6H4a1.6 1.6 0 01-1.6-1.6V10A1.6 1.6 0 014 8.5z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/><circle cx="12" cy="14" r="3.2" fill="none" stroke="#0a0a12" stroke-width="2"/></symbol>
+      <symbol id="i-location" viewBox="0 0 24 24"><path d="M12 21.5S19 15.4 19 9.9A7 7 0 105 9.9c0 5.5 7 11.6 7 11.6z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/><circle cx="12" cy="9.9" r="2.6" fill="none" stroke="currentColor" stroke-width="1.9"/></symbol>
+      <symbol id="i-screen" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="12" rx="2.2" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="M8.5 20h7M12 16v4" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></symbol>
+      <symbol id="i-spark" viewBox="0 0 24 24"><path d="M12 2.6l2 6.5 6.4 2.9-6.4 2.9-2 6.5-2-6.5L3.6 12 10 9.1z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/></symbol>
+      <symbol id="i-download" viewBox="0 0 24 24"><path d="M12 3.5V15M7 10l5 5 5-5M4.5 20.5h15" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+      <symbol id="i-nav" viewBox="0 0 24 24"><path d="M20.6 3.4 3.9 11.4c-.6.3-.5 1.2.1 1.4l5.8 2.3 2.3 5.8c.25.6 1.15.7 1.45.1l7-16.5c.25-.65-.3-1.35-.95-1.1z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/><path d="M9.8 15.1 20.6 3.4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" opacity="0.35"/></symbol>
+      <symbol id="i-food" viewBox="0 0 24 24"><path d="M6 3.5v6.8a2 2 0 001.6 2h.9a2 2 0 001.6-2V3.5M8.2 12.3v8.2M16.5 3.5c-1.4 1.7-2 3.6-2 5.6 0 1.7.7 2.9 2 3.6v7.8" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+      <symbol id="i-ride" viewBox="0 0 24 24"><circle cx="6.2" cy="17.2" r="2.9"/><circle cx="17.8" cy="17.2" r="2.9"/><path d="M6.2 17.2 9.4 9.8h4.8l3.6 7.4M9.4 9.8 8.3 7h2.8" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+      <symbol id="i-plane" viewBox="0 0 24 24"><path d="M10.2 21.2l2.1-6.8 7.6-2.3c.6-.18.7-.95.18-1.28l-8.3-1.2-4.2-6.3c-.3-.5-1.1-.5-1.5-.06L5.2 5.2c-.3.4-.2.95.2 1.25l5.1 3.7-6.2 1.6-2.1-1.3-.9 1.7 3.5 2.1 1.2 5.6c.12.55.8.8 1.25.5l3.9-2.7z" stroke="currentColor" stroke-width="1" stroke-linejoin="round"/></symbol>
+      <symbol id="i-trophy" viewBox="0 0 24 24"><path d="M8 3.5h8V9a4 4 0 01-8 0z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/><path d="M8 5.5H4.8a3.2 3.2 0 003.4 4.9M16 5.5h3.2a3.2 3.2 0 01-3.4 4.9" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M12 13v4M8.5 20.5h7M10 17h4v3.5h-4z" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+      <symbol id="i-sync" viewBox="0 0 24 24"><path d="M20 8.5a8.2 8.2 0 00-13.4-3.3L4 8M4 15.5a8.2 8.2 0 0013.4 3.3L20 16" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round"/><path d="M4 3.5V8h4.5M20 20.5V16h-4.5" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+      <symbol id="i-render" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="13" rx="2.4" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="M7 9.2h3.4M7 12.6h6M7 16h2.4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M14.5 9.2h2.6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+      <symbol id="i-app" viewBox="0 0 24 24"><rect x="4" y="4" width="6.4" height="6.4" rx="1.8"/><rect x="13.6" y="4" width="6.4" height="6.4" rx="1.8"/><rect x="4" y="13.6" width="6.4" height="6.4" rx="1.8"/><rect x="13.6" y="13.6" width="6.4" height="6.4" rx="1.8"/></symbol>
+      <symbol id="i-gear" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3.4" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="M12 3v2.6M12 18.4V21M3 12h2.6M18.4 12H21M5.6 5.6l1.9 1.9M16.5 16.5l1.9 1.9M18.4 5.6l-1.9 1.9M7.5 16.5l-1.9 1.9" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></symbol>
+      <symbol id="i-terminal" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2.4" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="M7 9l3.2 3L7 15M12.5 15.5H17" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+      <symbol id="i-calculator" viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="2.4" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="M8 7h8" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><circle cx="8.6" cy="11.4" r="1.15"/><circle cx="12" cy="11.4" r="1.15"/><circle cx="15.4" cy="11.4" r="1.15"/><circle cx="8.6" cy="14.8" r="1.15"/><circle cx="12" cy="14.8" r="1.15"/><circle cx="15.4" cy="14.8" r="1.15"/><circle cx="8.6" cy="18.2" r="1.15"/><circle cx="12" cy="18.2" r="1.15"/><circle cx="15.4" cy="18.2" r="1.15"/></symbol>
+      <symbol id="i-note" viewBox="0 0 24 24"><path d="M5.5 3.5H15l3.5 3.5v13.5h-13z" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"/><path d="M15 3.5V7h3.5M8.5 12h7M8.5 15.5h4.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+      <symbol id="i-pulse" viewBox="0 0 24 24"><path d="M2.8 12h4l2.2-7 3.8 13 2.2-6h6.2" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+      <symbol id="i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="M3 12h18M12 3c2.8 2.5 4 5.6 4 9s-1.2 6.5-4 9c-2.8-2.5-4-5.6-4-9s1.2-6.5 4-9z" fill="none" stroke="currentColor" stroke-width="1.9"/></symbol>
+      <symbol id="i-gamepad" viewBox="0 0 24 24"><path d="M6.2 8h11.6a4.2 4.2 0 014.1 5l-.9 4a2.6 2.6 0 01-4.3 1.5l-1.9-1.5H9.2l-1.9 1.5a2.6 2.6 0 01-4.3-1.5l-.9-4A4.2 4.2 0 016.2 8z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/><path d="M7.8 10.8v3M6.3 12.3h3" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/><circle cx="16" cy="11.4" r="1.05"/><circle cx="18" cy="13.6" r="1.05"/></symbol>
+      <symbol id="i-bluetooth" viewBox="0 0 24 24"><path d="M6.8 6.8l10.4 10.4-5.2 4V2.8l5.2 4L6.8 17.2" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+      <symbol id="i-bolt" viewBox="0 0 24 24"><path d="M13.2 2 4.3 13.8c-.4.55-.02 1.37.68 1.37H12l-1.3 6.3c-.16.77.82 1.28 1.42.7l8.3-11.3c.4-.55.02-1.37-.68-1.37H12.6l1.2-6.3c.15-.8-.82-1.28-1.42-.7z" stroke="currentColor" stroke-width="1.1" stroke-linejoin="round"/></symbol>
+      <symbol id="i-arrow-up" viewBox="0 0 24 24"><path d="M12 19.5V4.5M6 10.5l6-6 6 6" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+      <symbol id="i-arrow-down" viewBox="0 0 24 24"><path d="M12 4.5v15M6 13.5l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+      <symbol id="i-external" viewBox="0 0 24 24"><path d="M13.5 4h6.5v6.5M20 4l-9 9M18.5 13.5V18a2 2 0 01-2 2h-9.5a2 2 0 01-2-2V8.5a2 2 0 012-2h4.5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+      <symbol id="i-split" viewBox="0 0 24 24"><rect x="2.5" y="7" width="8.6" height="10" rx="3" fill="none" stroke="currentColor" stroke-width="2.2"/><rect x="12.9" y="7" width="8.6" height="10" rx="3" fill="none" stroke="currentColor" stroke-width="2.2"/></symbol>
+      <symbol id="i-output" viewBox="0 0 24 24"><rect x="2.5" y="9.5" width="7" height="5" rx="2"/><path d="M11 12h3.5M16 6l5.5 6L16 18" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+      <symbol id="i-eye" viewBox="0 0 24 24"><path d="M2.4 12S5.6 5.2 12 5.2 21.6 12 21.6 12 18.4 18.8 12 18.8 2.4 12 2.4 12z" fill="none" stroke="currentColor" stroke-width="2.2"/><circle cx="12" cy="12" r="3.1"/></symbol>
+      <symbol id="i-hello" viewBox="0 0 24 24"><path d="M7 11.5V8a5 5 0 0110 0v3.5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><path d="M7 15.5v.5a4 4 0 004 4h2a4 4 0 004-4v-.5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><path d="M4 10.5V15M20 10.5V15" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><circle cx="10" cy="13.5" r="0.9"/><circle cx="14" cy="13.5" r="0.9"/></symbol>
+      <symbol id="i-human" viewBox="0 0 24 24"><circle cx="12" cy="6.8" r="3.2"/><path d="M5.5 21v-3.6c0-3.5 2.9-6 6.5-6s6.5 2.5 6.5 6V21z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/></symbol>
+      <symbol id="i-lock" viewBox="0 0 24 24"><rect x="4.5" y="10.5" width="15" height="10" rx="2.4"/><path d="M8.5 10.5V7.2a3.5 3.5 0 017 0v3.3" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><circle cx="12" cy="15.5" r="1.5" fill="none" stroke="currentColor" stroke-width="1.6"/></symbol>
+      <symbol id="i-code" viewBox="0 0 24 24"><path d="M8.5 6.5 3.5 12l5 5.5M15.5 6.5 20.5 12l-5 5.5" fill="none" stroke="currentColor" stroke-width="2.7" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+      <symbol id="i-file" viewBox="0 0 24 24"><path d="M6.5 2.8H14l3.8 3.8v14.6a1 1 0 01-1 1H6.5a1 1 0 01-1-1V3.8a1 1 0 011-1z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/><path d="M14 2.8V6.6h3.8" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+      <symbol id="i-image" viewBox="0 0 24 24"><rect x="3" y="4.5" width="18" height="15" rx="2.4" fill="none" stroke="currentColor" stroke-width="2.2"/><circle cx="9" cy="10" r="1.7"/><path d="M4.5 17.5 9.5 12l3.4 3.6 2.6-2.7 4 4.6" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+      <symbol id="i-zip" viewBox="0 0 24 24"><path d="M6.5 2.8H14l3.8 3.8v14.6a1 1 0 01-1 1H6.5a1 1 0 01-1-1V3.8a1 1 0 011-1z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/><path d="M14 2.8V6.6h3.8" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/><path d="M11.5 9v2M11.5 13.5v2M11.5 18v2M11.5 20.5h1.6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+      <symbol id="i-video" viewBox="0 0 24 24"><rect x="3" y="5.5" width="13.5" height="13" rx="2.4"/><path d="M16.5 10.5 20.8 8.2c.5-.3 1.2.1 1.2.7v6.2c0 .6-.7 1-1.2.7l-4.3-2.3z" stroke="currentColor" stroke-width="1.1" stroke-linejoin="round"/></symbol>
+      <symbol id="i-audio" viewBox="0 0 24 24"><path d="M9.2 17.8V5.6L19 3.6v11.6" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"/><circle cx="6.6" cy="17.8" r="2.7"/><circle cx="16.4" cy="15.2" r="2.7"/></symbol>
+      <symbol id="i-search" viewBox="0 0 24 24"><circle cx="10.8" cy="10.8" r="6.6" fill="none" stroke="currentColor" stroke-width="2.4"/><path d="M20.5 20.5 15.6 15.6" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></symbol>
+      <symbol id="i-thermo" viewBox="0 0 24 24"><path d="M10 13.2V5.4a2 2 0 014 0v7.8a4.4 4.4 0 11-4 0z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/><path d="M12 9.6v5" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></symbol>
+      <symbol id="i-radar" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2.1"/><circle cx="12" cy="12" r="5" fill="none" stroke="currentColor" stroke-width="1.9"/><circle cx="12" cy="12" r="1.6"/><path d="M12 3v9l6.4 4.2" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round"/></symbol>
+    </svg>
+
+    <div id="stage" class="stage">
+      <canvas id="islandTrail" class="island-trail" aria-hidden="true"></canvas>
+      <span id="rippleHost" class="ripple-host" aria-hidden="true"></span>
+      <!-- ============ COMPACT ISLAND ============ -->
+      <section id="compact" class="compact interactive" data-mode="idle" data-progress="none" aria-label="Dynamic Island">
+        <span class="compact-aurora" aria-hidden="true"></span>
+        <span class="compact-sheen" aria-hidden="true"></span>
+        <span class="compact-trail" aria-hidden="true" hidden></span>
+        <div class="compact-rotor">
+          <span class="dock-hint" id="dockHint" aria-hidden="true"></span>
+          <button id="compactArt" class="compact-art" type="button" aria-label="Open island">
+            <img id="compactArtImg" class="is-empty" alt="" />
+            <span class="compact-art-ring"></span>
+            <span class="eq eq-sm" id="compactEq" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+          </button>
+          <button id="compactMeta" class="compact-meta" type="button" aria-label="Open island">
+            <span class="compact-title" id="compactTitle">Nothing playing</span>
+            <span class="compact-sub" id="compactArtist">Open the island · Ctrl Alt I</span>
+          </button>
+          <div class="compact-idle" id="compactIdle">
+            <span class="idle-face is-active" data-face="clock">
+              <span class="idle-clock" id="compactIdleTime" role="timer"></span>
+            </span>
+            <span class="idle-face" data-face="pomodoro">
+              <span class="idle-clock" id="idleFaceTimer">25:00</span>
+              <span class="idle-face-note">Focus</span>
+            </span>
+            <span class="idle-face" data-face="uptime">
+              <span class="idle-clock" id="idleFaceUptime">0h</span>
+              <span class="idle-face-note">Uptime</span>
+            </span>
+          </div>
+          <div class="compact-alt" id="compactAlt">
+            <span class="compact-alt-icon" id="compactAltIconWrap">
+              <svg class="ico" id="compactAltIcon"><use href="#i-timer" /></svg>
+            </span>
+            <span class="compact-alt-copy">
+              <b id="compactAltTitle">25:00</b>
+              <span id="compactAltSub">Focus timer</span>
+            </span>
+          </div>
+          <div class="compact-center">
+            <span class="eq" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>
+          </div>
+          <div class="compact-right">
+            <span class="compact-timer" id="compactTimer" hidden>
+              <svg class="ico"><use href="#i-timer" /></svg><b>00:00</b>
+            </span>
+            <button class="compact-skip" id="compactPrev" type="button" aria-label="Previous track">
+              <svg class="ico"><use href="#i-prev" /></svg>
+            </button>
+            <span class="compact-app" id="compactApp" aria-hidden="true">
+              <svg class="ico"><use href="#i-music" /></svg>
+            </span>
+            <button class="compact-play" id="compactPlay" type="button" aria-label="Play or pause">
+              <svg class="ico fill" id="compactPlayIcon"><use href="#i-play" /></svg>
+            </button>
+            <button class="compact-skip" id="compactNext" type="button" aria-label="Next track">
+              <svg class="ico"><use href="#i-next" /></svg>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ SPLIT BUBBLES ============ -->
+      <div id="split" class="split" hidden>
+        <button class="bubble bubble-media interactive" id="splitMedia" type="button">
+          <img id="splitArt" class="is-empty" alt="" />
+          <span class="bubble-copy">
+            <b id="splitTitle">Nothing playing</b>
+            <span id="splitArtist">Media</span>
+          </span>
+          <span class="eq eq-sm" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+          <span class="bubble-open"><svg class="ico"><use href="#i-chevron-right" /></svg></span>
+        </button>
+        <button class="bubble bubble-timer interactive" id="splitTimer" type="button">
+          <span class="bubble-timer-icon"><svg class="ico"><use href="#i-timer" /></svg></span>
+          <span class="bubble-copy">
+            <b id="splitTimerTime">25:00</b>
+            <span id="splitTimerLabel">Focus session</span>
+          </span>
+          <span class="bubble-timer-actions">
+            <span class="mini-act" data-action="toggle"><svg class="ico"><use href="#i-play" /></svg></span>
+            <span class="mini-act" data-action="reset"><svg class="ico"><use href="#i-sync" /></svg></span>
+          </span>
+        </button>
+      </div>
+
+      <!-- ============ NOTIFICATION PEEK ============ -->
+      <div id="peek" class="peek interactive" aria-live="polite">
+        <div class="peek-icon"><svg class="ico" id="peekIcon"><use href="#i-spark" /></svg></div>
+        <div class="peek-copy">
+          <span class="peek-app" id="peekApp">Dynamic Island</span>
+          <b class="peek-title" id="peekTitle">Welcome back</b>
+          <span class="peek-body" id="peekBody">Your island is ready.</span>
+        </div>
+        <span class="peek-line"><i id="peekProgress"></i></span>
+      </div>
+
+      <!-- ============ VOLUME HUD ============ -->
+      <div id="volumeHud" class="hud">
+        <span class="hud-icon"><svg class="ico" id="volumeHudIcon"><use href="#i-volume" /></svg></span>
+        <span class="hud-meta"><b id="volumeHudName">Speakers</b><span class="hud-bar"><i id="volumeHudFill"></i></span></span>
+        <span class="hud-value" id="volumeHudValue">68</span>
+      </div>
+
+      <!-- ============ MIC HUD ============ -->
+      <div id="micHud" class="hud hud-mic">
+        <span class="hud-icon"><svg class="ico" id="micHudIcon"><use href="#i-mic" /></svg></span>
+        <span class="hud-meta"><b id="micHudTitle">Microphone</b><span id="micHudName">Muted</span></span>
+        <span class="hud-value" id="micHudState">OFF</span>
+      </div>
+
+      <!-- ============ DASHBOARD ============ -->
+      <span class="panel-glow" aria-hidden="true"></span>
+      <main id="panel" class="panel interactive" aria-label="Island control center">
+        <span class="panel-aura"></span>
+        <span class="panel-sheen" id="panelSheen" aria-hidden="true"></span>
+        <span class="panel-glass" aria-hidden="true"></span>
+        <header class="panel-head">
+          <div class="brand">
+            <img class="brand-logo" src="wordmark.png" alt="Shadow Island" />
+          </div>
+          <nav class="head-center">
+            <div class="tabs" role="tablist" aria-label="Island pages">
+            <span class="tab-glider" id="tabSlider" aria-hidden="true"></span>
+            <button class="tab is-active" data-tab="now" role="tab" type="button"><svg class="ico"><use href="#i-music" /></svg><span>NOW</span></button>
+            <button class="tab" data-tab="system" role="tab" type="button"><svg class="ico"><use href="#i-cpu" /></svg><span>CORE</span></button>
+            <button class="tab" data-tab="tools" role="tab" type="button"><svg class="ico"><use href="#i-app" /></svg><span>TOOLS</span><span class="tab-badge" id="tabClipBadge" hidden>0</span></button>
+            <button class="tab" data-tab="live" role="tab" type="button"><svg class="ico"><use href="#i-activity" /></svg><span>PULSE</span><span class="tab-badge" id="tabActivityBadge" hidden>0</span></button>
+            <button class="tab" data-tab="link" role="tab" type="button"><svg class="ico"><use href="#i-bluetooth" /></svg><span>LINK</span></button>
+            <button class="tab" data-tab="settings" role="tab" type="button"><svg class="ico"><use href="#i-gear" /></svg><span>CONFIG</span></button>
+            </div>
+          </nav>
+          <div class="head-actions">
+            <span class="clock" id="clock">--:--<small>--</small></span>
+            <button class="icon-btn" id="focusQuick" type="button" title="Focus mode" aria-label="Focus mode"><svg class="ico"><use href="#i-moon" /></svg></button>
+            <button class="icon-btn" id="collapseBtn" type="button" title="Collapse" aria-label="Collapse island"><svg class="ico"><use href="#i-chevron-up" /></svg></button>
+          </div>
+        </header>
+
+        <div class="status-rail">
+          <div class="rail-group">
+            <span class="rail-svc" data-svc="media"><i></i>MEDIA</span>
+            <span class="rail-svc" data-svc="volume"><i></i>AUDIO</span>
+            <span class="rail-svc" data-svc="system"><i></i>SYSTEM</span>
+          </div>
+          <div class="rail-spacer"></div>
+          <span class="rail-item"><svg class="ico"><use href="#i-wifi" /></svg><b id="railNet">Ethernet</b></span>
+          <span class="rail-item"><svg class="ico"><use href="#i-battery" /></svg><b id="railBattery">AC</b></span>
+          <span class="rail-item"><svg class="ico"><use href="#i-pulse" /></svg><b id="railUptime">0h</b></span>
+          <span class="rail-clock" id="railClock">--:--:--</span>
+        </div>
+
+        <!-- ================= NOW ================= -->
+        <section class="page is-active" data-page="now">
+          <div class="now-grid">
+            <article class="card media-card">
+              <div class="media-art">
+                <img id="albumArt" class="is-empty" alt="" />
+                <span class="art-fallback"></span>
+                <span class="art-sheen"></span>
+              </div>
+              <div class="media-body">
+                <span class="eyebrow"><i class="pulse-dot"></i><span id="mediaApp">Windows media session</span></span>
+                <h2 id="trackTitle">Nothing playing</h2>
+                <p id="trackArtist">Start a track in any media app</p>
+                <div class="scrub">
+                  <span id="elapsed">0:00</span>
+                  <input id="seek" type="range" min="0" max="1000" value="0" step="1" aria-label="Playback position" />
+                  <span id="duration">0:00</span>
+                </div>
+                <div class="transport">
+                  <button class="icon-btn sm" id="prevBtn" type="button" aria-label="Previous track"><svg class="ico"><use href="#i-prev" /></svg></button>
+                  <button class="play-btn" id="playBtn" type="button" aria-label="Play or pause"><svg class="ico fill" id="playIcon"><use href="#i-play" /></svg></button>
+                  <button class="icon-btn sm" id="nextBtn" type="button" aria-label="Next track"><svg class="ico"><use href="#i-next" /></svg></button>
+                  <span class="transport-divider"></span>
+                  <button class="icon-btn sm" id="muteBtn" type="button" aria-label="Mute"><svg class="ico" id="volumeIcon"><use href="#i-volume" /></svg></button>
+                  <input id="volume" class="mini-range" type="range" min="0" max="100" value="0" step="1" aria-label="System volume" />
+                  <span class="vol-label" id="volumeLabel">--</span>
+                </div>
+                <label class="output-row">
+                  <svg class="ico"><use href="#i-output" /></svg>
+                  <span>OUTPUT</span>
+                  <select id="outputSelect"><option>Detecting devices…</option></select>
+                </label>
+              </div>
+              <div class="wave-wrap">
+                <canvas id="waveform"></canvas>
+                <span class="wave-label">SPECTRUM</span>
+              </div>
+            </article>
+
+            <article class="card lyrics-card">
+              <div class="card-head">
+                <span class="kicker">LYRICS</span>
+                <span class="chip-soft" id="lyricsBadge">LRCLIB</span>
+              </div>
+              <div class="lyrics-list" id="lyricsList">
+                <p class="lyrics-empty">Play a track to pull synced lyrics.</p>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <!-- ================= CORE ================= -->
+        <section class="page" data-page="system">
+          <div class="sys-grid">
+            <article class="card gauge-card card-hover">
+              <div class="gauge-top"><span class="kicker">PROCESSOR</span><span class="chip-soft" id="cpuCores">-- cores</span></div>
+              <div class="gauge-body">
+                <div class="gauge" id="gaugeCpu" style="--value: 0">
+                  <svg viewBox="0 0 120 120"><circle class="gauge-track" cx="60" cy="60" r="50" /><circle class="gauge-fill" cx="60" cy="60" r="50" /></svg>
+                  <span class="gauge-value"><b id="cpuValue">0</b><small>%</small></span>
+                </div>
+                <div class="gauge-side">
+                  <span class="gauge-note"><svg class="ico"><use href="#i-thermo" /></svg><b id="cpuTemp">--</b>°C</span>
+                  <span class="gauge-note dim" id="cpuLoad">0.00 load</span>
+                  <div class="core-bars" id="coreBars" aria-hidden="true"></div>
+                  <span class="gauge-note dim top-procs" id="topProcs">Warming up…</span>
+                </div>
+              </div>
+            </article>
+            <article class="card gauge-card is-cyan">
+              <div class="gauge-top"><span class="kicker">MEMORY</span><span class="chip-soft" id="ramTotal">-- GB</span></div>
+              <div class="gauge-body">
+                <div class="gauge" id="gaugeRam" style="--value: 0">
+                  <svg viewBox="0 0 120 120"><circle class="gauge-track" cx="60" cy="60" r="50" /><circle class="gauge-fill" cx="60" cy="60" r="50" /></svg>
+                  <span class="gauge-value"><b id="ramValue">0</b><small>%</small></span>
+                </div>
+                <div class="gauge-side">
+                  <span class="gauge-note"><svg class="ico"><use href="#i-memory" /></svg><b id="ramUsed">--</b> GB</span>
+                  <span class="gauge-note dim">of <b id="ramTotalSide">--</b> GB</span>
+                  <canvas class="mini-spark is-cyan" id="ramSpark"></canvas>
+                </div>
+              </div>
+            </article>
+            <article class="card gauge-card is-pink">
+              <div class="gauge-top"><span class="kicker">GRAPHICS</span><span class="chip-soft" id="gpuVendor">--</span></div>
+              <div class="gauge-body">
+                <div class="gauge" id="gaugeGpu" style="--value: 0">
+                  <svg viewBox="0 0 120 120"><circle class="gauge-track" cx="60" cy="60" r="50" /><circle class="gauge-fill" cx="60" cy="60" r="50" /></svg>
+                  <span class="gauge-value"><b id="gpuValue">--</b><small>%</small></span>
+                </div>
+                <div class="gauge-side">
+                  <span class="gauge-note"><svg class="ico"><use href="#i-gpu" /></svg><b id="gpuTemp">--</b>°C</span>
+                  <span class="gauge-note dim" id="gpuName">Detecting GPU</span>
+                  <canvas class="mini-spark is-pink" id="gpuSpark"></canvas>
+                </div>
+              </div>
+            </article>
+
+            <article class="card net-card">
+              <div class="card-head">
+                <span class="kicker">NETWORK</span>
+                <span class="chip-soft" id="netTypeChip">--</span>
+              </div>
+              <div class="net-head">
+                <span class="net-big up"><svg class="ico"><use href="#i-arrow-up" /></svg><b id="netUpBig">0</b><small>KB/s</small></span>
+                <span class="net-big down"><svg class="ico"><use href="#i-arrow-down" /></svg><b id="netDownBig">0</b><small>KB/s</small></span>
+                <span class="net-ssid"><svg class="ico"><use href="#i-wifi" /></svg><b id="netSsid">Ethernet</b></span>
+              </div>
+              <canvas id="netChart" class="net-chart"></canvas>
+            </article>
+
+            <article class="card battery-card">
+              <div class="card-head"><span class="kicker">BATTERY</span><span class="chip-soft" id="sysPowerMode">--</span></div>
+              <div class="battery-big">
+                <span class="battery-glyph" id="batteryGlyph"><i id="sysBatteryFill"></i></span>
+                <span class="battery-num"><b id="sysBatteryPct">--</b><small>%</small></span>
+              </div>
+              <span class="battery-line" id="sysBatteryState">Desktop power</span>
+              <span class="battery-hint" id="sysBatteryTime">No battery detected</span>
+            </article>
+
+            <article class="card audio-card">
+              <div class="card-head"><span class="kicker">AUDIO &amp; DISPLAY</span><span class="chip-soft" id="audioChip">CORE AUDIO</span></div>
+              <div class="audio-grid">
+                <label class="output-row big">
+                  <svg class="ico"><use href="#i-output" /></svg>
+                  <span>OUT</span>
+                  <select id="sysOutputSelect"><option>Detecting…</option></select>
+                </label>
+                <div class="mic-row">
+                  <span class="mic-icon" id="micIconWrap"><svg class="ico" id="sysMicIcon"><use href="#i-mic" /></svg></span>
+                  <span class="mic-meta"><b id="sysMicName">Microphone</b><small id="sysMicState">Live</small></span>
+                  <button class="toggle-btn" id="sysMicBtn" type="button"><i></i><span>MUTE</span></button>
+                </div>
+              </div>
+              <div class="brightness-row" id="brightnessRow" hidden>
+                <svg class="ico"><use href="#i-spark" /></svg>
+                <span>DISPLAY</span>
+                <input id="brightness" type="range" min="0" max="100" step="1" value="80" aria-label="Display brightness" />
+                <span class="vol-label" id="brightnessLabel">--</span>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <!-- ================= LINK ================= -->
+        <section class="page" data-page="link">
+          <div class="link-grid">
+            <article class="card bt-card">
+              <div class="card-head"><span class="kicker">BLUETOOTH</span><span class="chip-soft" id="btChip">--</span></div>
+              <div class="bt-radio-row">
+                <span class="bt-radio-icon"><svg class="ico"><use href="#i-bluetooth" /></svg></span>
+                <span class="bt-radio-meta"><b id="btRadioStatus">Checking radio…</b><small id="btRadioSub">Scanning paired devices</small></span>
+                <button class="bt-btn ghost" id="btPairBtn" type="button">PAIR</button>
+                <button class="bt-btn" id="btOpenSettings" type="button">SETTINGS</button>
+              </div>
+              <div class="bt-full-list" id="btListFull"></div>
+            </article>
+
+            <article class="card conn-card">
+              <div class="card-head"><span class="kicker">CONNECTIONS</span><span class="chip-soft">LIVE</span></div>
+              <div class="conn-list" id="connList"></div>
+              <div class="conn-quick">
+                <button class="foot-btn" id="connBtBtn" type="button"><svg class="ico"><use href="#i-bluetooth" /></svg>BLUETOOTH</button>
+                <button class="foot-btn" id="connNetBtn" type="button"><svg class="ico"><use href="#i-wifi" /></svg>NETWORK</button>
+              </div>
+            </article>
+
+            <article class="card wifi-card">
+              <div class="card-head"><span class="kicker">WI-FI LINK</span><span class="chip-soft" id="wifiAuthChip">--</span></div>
+              <div class="wifi-body">
+                <span class="wifi-icon"><svg class="ico"><use href="#i-wifi" /></svg></span>
+                <span class="wifi-main">
+                  <b id="wifiSsidBig">No network</b>
+                  <span class="wifi-bars" id="wifiBars" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
+                </span>
+                <span class="wifi-stat"><i>SIGNAL</i><b id="wifiSignalPct">--</b></span>
+                <span class="wifi-stat"><i>RATE</i><b id="wifiRate">--</b></span>
+                <span class="wifi-stat"><i>CH</i><b id="wifiChannel">--</b></span>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <!-- ================= CONFIG ================= -->
+        <section class="page" data-page="settings">
+          <div class="settings-grid">
+            <article class="card settings-card">
+              <div class="card-head"><span class="kicker">ACCENT SCHEME</span><span class="chip-soft" id="accentModeChip">WALLPAPER</span></div>
+              <div class="set-segment" id="accentModeSegment" role="group" aria-label="Accent source">
+                <button type="button" data-mode="wallpaper" class="is-active">WALLPAPER</button>
+                <button type="button" data-mode="album">ALBUM ART</button>
+                <button type="button" data-mode="custom">CUSTOM</button>
+              </div>
+              <div class="color-row" id="colorRow">
+                <label class="color-picker">
+                  <input type="color" id="accentPrimaryInput" value="#A855F7" />
+                  <span class="color-meta"><b>PRIMARY</b><small id="accentPrimaryHex">#A855F7</small></span>
+                </label>
+                <label class="color-picker">
+                  <input type="color" id="accentSecondaryInput" value="#22D3EE" />
+                  <span class="color-meta"><b>SECONDARY</b><small id="accentSecondaryHex">#22D3EE</small></span>
+                </label>
+                <span class="accent-preview" id="accentPreview" aria-hidden="true"><i></i></span>
+              </div>
+              <p class="set-note" id="accentNote">Follows your Windows accent or wallpaper. Album art takes over while music plays.</p>
+            </article>
+
+            <article class="card settings-card">
+              <div class="card-head"><span class="kicker">PILL BEHAVIOR</span></div>
+              <div class="set-rows">
+                <div class="set-row">
+                  <span class="set-meta"><b>Progress ring</b><small>Trace the pill while media/timer runs</small></span>
+                  <button class="set-switch" id="setProgressRing" type="button" role="switch" aria-checked="true"><i></i></button>
+                </div>
+                <div class="set-row">
+                  <span class="set-meta"><b>Hover expansion</b><small>Widen the island when hovered</small></span>
+                  <button class="set-switch" id="setHoverExpand" type="button" role="switch" aria-checked="true"><i></i></button>
+                </div>
+                <div class="set-row">
+                  <span class="set-meta"><b>Aurora glow</b><small>Living light drifting inside the capsule</small></span>
+                  <button class="set-switch" id="setAurora" type="button" role="switch" aria-checked="true"><i></i></button>
+                </div>
+                <div class="set-row">
+                  <span class="set-meta"><b>Odometer clock</b><small>Roll the digits when the minute changes</small></span>
+                  <button class="set-switch" id="setOdometer" type="button" role="switch" aria-checked="true"><i></i></button>
+                </div>
+                <div class="set-row">
+                  <span class="set-meta"><b>Auto-hide on fullscreen</b><small>Step aside for games and fullscreen video</small></span>
+                  <button class="set-switch" id="setAutoHide" type="button" role="switch" aria-checked="false"><i></i></button>
+                </div>
+                <div class="set-row">
+                  <span class="set-meta"><b>Sound reactive</b><small>The capsule breathes with the music</small></span>
+                  <button class="set-switch" id="setSoundReactive" type="button" role="switch" aria-checked="true"><i></i></button>
+                </div>
+                <div class="set-row">
+                  <span class="set-meta"><b>Holo accent</b><small>Let the accent drift with the audio</small></span>
+                  <button class="set-switch" id="setHoloAccent" type="button" role="switch" aria-checked="true"><i></i></button>
+                </div>
+                <div class="set-row">
+                  <span class="set-meta"><b>Frosted glass</b><small>Blur the desktop behind the dashboard</small></span>
+                  <button class="set-switch" id="setGlassPanel" type="button" role="switch" aria-checked="false"><i></i></button>
+                </div>
+                <div class="set-row">
+                  <span class="set-meta"><b>Drag trail</b><small>Leave a comet tail while moving</small></span>
+                  <button class="set-switch" id="setDragTrail" type="button" role="switch" aria-checked="true"><i></i></button>
+                </div>
+                <div class="set-row set-row-stack">
+                  <span class="set-meta"><b>Capsule face</b><small>What the idle island shows</small></span>
+                  <div class="set-segment" id="capsuleFaceSegment">
+                    <button type="button" data-face="clock" class="is-active">CLOCK</button>
+                    <button type="button" data-face="pomodoro">FOCUS</button>
+                    <button type="button" data-face="uptime">UPTIME</button>
+                  </div>
+                </div>
+                <div class="set-row set-row-stack">
+                  <span class="set-meta"><b>Theme pack</b><small>Overall mood of the island</small></span>
+                  <div class="set-segment" id="themePackSegment">
+                    <button type="button" data-pack="neon" class="is-active">NEON</button>
+                    <button type="button" data-pack="oled">OLED</button>
+                    <button type="button" data-pack="amber">AMBER</button>
+                    <button type="button" data-pack="ice">ICE</button>
+                  </div>
+                </div>
+              </div>
+            </article>
+
+            <article class="card settings-card">
+              <div class="card-head"><span class="kicker">ISLAND POSITION</span></div>
+              <div class="set-rows">
+                <div class="set-row set-row-stack">
+                  <span class="set-meta"><b>Dock edge</b><small>Which screen edge the island lives on</small></span>
+                  <div class="set-segment" id="dockEdgeSegment">
+                    <button type="button" data-edge="top" class="is-active">TOP</button>
+                    <button type="button" data-edge="right">RIGHT</button>
+                    <button type="button" data-edge="bottom">BOTTOM</button>
+                    <button type="button" data-edge="left">LEFT</button>
+                  </div>
+                </div>
+                <div class="set-row set-row-stack">
+                  <span class="set-meta"><b>Along the edge</b><small>Slide the island towards a corner</small></span>
+                  <input class="set-range" type="range" id="dockOffset" min="-100" max="100" step="1" value="0" />
+                </div>
+              </div>
+              <p class="set-note">Tip: hold <b>Ctrl + Shift</b> and drag the island to move it — it snaps to the edges and turns vertical on the sides.</p>
+            </article>
+
+            <article class="card settings-card">
+              <div class="card-head"><span class="kicker">THEME</span></div>
+              <div class="set-rows">
+                <div class="set-row">
+                  <span class="set-meta"><b>Follow Windows</b><small>Match light/dark from system settings</small></span>
+                  <button class="set-switch" id="setAutoTheme" type="button" role="switch" aria-checked="true"><i></i></button>
+                </div>
+              </div>
+              <p class="set-note">Currently: <b id="themeNow">DARK</b> · accent <b id="accentNow">WALLPAPER</b></p>
+            </article>
+
+            <article class="card settings-card">
+              <div class="card-head"><span class="kicker">STARTUP</span></div>
+              <div class="set-rows">
+                <div class="set-row">
+                  <span class="set-meta"><b>Start with Windows</b><small>Launch quietly into the tray on login</small></span>
+                  <button class="set-switch" id="setStartLogin" type="button" role="switch" aria-checked="false"><i></i></button>
+                </div>
+              </div>
+              <p class="set-note">Only takes effect in the installed build (Settings → Startup).</p>
+            </article>
+
+            <article class="card settings-card wide">
+              <div class="card-head"><span class="kicker">SHORTCUTS</span></div>
+              <div class="shortcut-list">
+                <span><i>Ctrl Alt I</i> open / close island</span>
+                <span><i>Ctrl Alt C</i> clipboard</span>
+                <span><i>Ctrl Alt N</i> test notification</span>
+                <span><i>Ctrl Alt M</i> play / pause</span>
+                <span><i>Ctrl Alt F</i> focus mode</span>
+                <span><i>Ctrl Alt H</i> hide / show</span>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <!-- ================= TOOLS ================= -->
+        <section class="page" data-page="tools">
+          <div class="tools-grid">
+            <article class="card drop-card" id="dropZone">
+              <div class="drop-inner">
+                <div class="drop-orb"><svg class="ico"><use href="#i-folder" /></svg></div>
+                <div class="drop-copy">
+                  <b>DROP ZONE</b>
+                  <span id="dropCount">0 files shelved</span>
+                </div>
+                <div class="drop-badge" id="dropSize">0 B</div>
+              </div>
+              <div class="drop-tools">
+                <button class="mini-link" id="captureScreen" type="button">CAPTURE SCREEN</button>
+                <span class="drop-hint">Drag files anywhere onto the open island to shelve them instantly · Ctrl Alt S</span>
+              </div>
+              <div class="drop-list" id="dropList">
+                <div class="empty-slot" id="dropEmpty"><svg class="ico"><use href="#i-download" /></svg><span>No files yet — drop something</span></div>
+              </div>
+            </article>
+
+            <article class="card clip-card">
+              <div class="card-head">
+                <span class="kicker">CLIPBOARD</span>
+                <span class="head-tools"><span class="chip-soft" id="clipCount">0</span><button class="mini-link" id="clipClear" type="button">CLEAR</button></span>
+              </div>
+              <div class="clip-search">
+                <svg class="ico"><use href="#i-search" /></svg>
+                <input id="clipSearch" type="text" placeholder="Search clips…" maxlength="80" aria-label="Search clips" />
+              </div>
+              <div class="clip-list" id="clipList">
+                <p class="empty-note">Copy text or an image and it lands here.</p>
+              </div>
+            </article>
+
+            <article class="card launch-card">
+              <div class="card-head">
+                <span class="kicker">LAUNCH BAY</span>
+                <span class="head-tools">
+                  <button class="mini-link" id="appAddLinkBtn" type="button">LINK</button>
+                  <button class="mini-link" id="appAddBtn" type="button">+ APP</button>
+                </span>
+              </div>
+              <div class="link-form" id="linkForm">
+                <input id="linkName" type="text" placeholder="Label" maxlength="30" />
+                <input id="linkUrl" type="text" placeholder="https://..." maxlength="300" />
+                <button id="linkSave" type="button">ADD</button>
+              </div>
+              <div class="app-grid" id="appGrid"></div>
+            </article>
+
+            <article class="card timer-card">
+              <div class="card-head">
+                <span class="kicker">FOCUS TIMER</span>
+                <span class="chip-soft" id="timerModeChip">POMODORO</span>
+              </div>
+              <div class="timer-body">
+                <span class="timer-digits" id="timerDisplay">25:00</span>
+                <span class="timer-label" id="timerLabel">Deep work · ready</span>
+                <div class="timer-presets">
+                  <button type="button" data-preset="1500" class="preset is-active">25</button>
+                  <button type="button" data-preset="300" class="preset">5</button>
+                  <button type="button" data-preset="900" class="preset">15</button>
+                  <button type="button" data-mode="stopwatch" class="preset wide" id="stopwatchBtn"><svg class="ico"><use href="#i-stopwatch" /></svg>S/W</button>
+                </div>
+                <div class="timer-actions">
+                  <button class="timer-start" id="timerStart" type="button"><svg class="ico fill" id="timerStartIcon"><use href="#i-play" /></svg><span id="timerStartLabel">START</span></button>
+                  <button class="timer-reset" id="timerReset" type="button" aria-label="Reset timer"><svg class="ico"><use href="#i-sync" /></svg></button>
+                </div>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <!-- ================= PULSE ================= -->
+        <section class="page" data-page="live">
+          <div class="pulse-grid">
+            <article class="card activity-card">
+              <div class="card-head">
+                <span class="kicker">ACTIVITY STREAM</span>
+                <span class="head-tools">
+                  <button class="mini-link" id="demoTransfer" type="button">TRANSFER</button>
+                  <button class="mini-link" id="demoNav" type="button">ROUTE</button>
+                </span>
+              </div>
+              <div class="activity-list" id="activityList">
+                <p class="empty-note">No background tasks. Try a demo, or POST to <code>/activity</code>.</p>
+              </div>
+            </article>
+
+            <div class="pulse-side">
+              <article class="card privacy-card">
+                <div class="card-head"><span class="kicker">PRIVACY WATCH</span><span class="chip-soft" id="privacyChip">ALL CLEAR</span></div>
+                <div class="privacy-list" id="privacyList">
+                  <div class="privacy-row" data-privacy="webcam">
+                    <span class="privacy-icon"><svg class="ico"><use href="#i-camera" /></svg></span>
+                    <span class="privacy-info"><b>Camera</b><small data-status>Idle</small></span>
+                    <span class="privacy-beacon"></span>
+                  </div>
+                  <div class="privacy-row" data-privacy="microphone">
+                    <span class="privacy-icon"><svg class="ico"><use href="#i-mic" /></svg></span>
+                    <span class="privacy-info"><b>Microphone</b><small data-status>Idle</small></span>
+                    <span class="privacy-beacon"></span>
+                  </div>
+                  <div class="privacy-row" data-privacy="location">
+                    <span class="privacy-icon"><svg class="ico"><use href="#i-location" /></svg></span>
+                    <span class="privacy-info"><b>Location</b><small data-status>Idle</small></span>
+                    <span class="privacy-beacon"></span>
+                  </div>
+                </div>
+              </article>
+
+              <button class="card hello-card" id="helloCard" type="button">
+                <span class="hello-face" id="helloFace">
+                  <svg class="ico"><use href="#i-hello" /></svg>
+                  <i class="scan-line"></i>
+                </span>
+                <span class="hello-copy">
+                  <b>WINDOWS HELLO</b>
+                  <small id="helloStatus">Checking biometric service…</small>
+                </span>
+                <span class="hello-action" id="helloAction">SCAN</span>
+              </button>
+            </div>
+
+            <article class="card focus-card">
+              <div class="focus-tiles">
+                <button class="focus-tile" id="focusToggle" type="button">
+                  <span class="focus-icon"><svg class="ico"><use href="#i-moon" /></svg></span>
+                  <span class="focus-meta"><b>FOCUS MODE</b><small id="focusState">Off · popups allowed</small></span>
+                  <span class="switch" id="focusSwitch"><i></i></span>
+                </button>
+                <button class="focus-tile" id="micToggle" type="button">
+                  <span class="focus-icon is-pink"><svg class="ico" id="micToggleIcon"><use href="#i-mic" /></svg></span>
+                  <span class="focus-meta"><b>MICROPHONE</b><small id="micState">Live · system default</small></span>
+                  <span class="switch" id="micSwitch"><i></i></span>
+                </button>
+              </div>
+              <div class="focus-foot">
+                <span><i class="dot-live"></i> <b id="focusFooterState">MONITORING</b></span>
+                <span>Popups are paused while focus mode is on.</span>
+              </div>
+            </article>
+
+            <article class="card api-card">
+              <div class="card-head"><span class="kicker">LOCAL API</span><span class="chip-soft">PORT 17891</span></div>
+              <div class="api-code">
+                <span><b>GET</b> /activities</span>
+                <span><b>POST</b> /activity</span>
+                <span><b>POST</b> /notify</span>
+              </div>
+              <p class="api-note">Push transfers, routes or alerts from any script. Activities update in place by <code>id</code>.</p>
+            </article>
+          </div>
+        </section>
+
+        <footer class="panel-foot">
+          <div class="foot-hints">
+            <span><kbd>Ctrl</kbd><kbd>Alt</kbd><kbd>I</kbd> island</span>
+            <span><kbd>Ctrl</kbd><kbd>Alt</kbd><kbd>C</kbd> clips</span>
+            <span><kbd>Ctrl</kbd><kbd>Alt</kbd><kbd>H</kbd> hide</span>
+            <span><kbd>Esc</kbd> collapse</span>
+          </div>
+          <div class="foot-actions">
+            <span class="foot-focus" id="footFocus"><i></i> FOCUS OFF</span>
+            <button class="foot-btn" id="splitToggle" type="button"><svg class="ico"><use href="#i-split" /></svg>SPLIT</button>
+          </div>
+        </footer>
+        <canvas id="ambientFx" aria-hidden="true"></canvas>
+      </main>
+    </div>
+
+    <div id="ctxMenu" class="ctx-menu" hidden role="menu" aria-label="Island menu">
+      <span class="ctx-head">SHADOW ISLAND</span>
+      <button class="ctx-item" type="button" data-act="open"><svg class="ico"><use href="#i-chevron-down" /></svg>Open island</button>
+      <button class="ctx-item" type="button" data-act="split"><svg class="ico"><use href="#i-split" /></svg>Split mode</button>
+      <button class="ctx-item" type="button" data-act="focus"><svg class="ico"><use href="#i-moon" /></svg>Focus mode</button>
+      <button class="ctx-item" type="button" data-act="mic"><svg class="ico"><use href="#i-mic" /></svg>Mute microphone</button>
+      <div class="ctx-sep"></div>
+      <button class="ctx-item" type="button" data-act="hide"><svg class="ico"><use href="#i-eye" /></svg>Hide island</button>
+      <button class="ctx-item danger" type="button" data-act="quit"><svg class="ico"><use href="#i-close" /></svg>Quit</button>
+    </div>
+
+    <script src="js/util.js"></script>
+    <script src="js/mock.js"></script>
+    <script src="js/core.js"></script>
+    <script src="js/media.js"></script>
+    <script src="js/system.js"></script>
+    <script src="js/tools.js"></script>
+    <script src="js/live.js"></script>
+    <script src="js/pill.js"></script>
+    <script src="js/dock.js"></script>
+    <script src="js/visuals.js"></script>
+    <script src="js/extras.js"></script>
+    <script src="js/settings.js"></script>
+    <script src="js/ambient.js"></script>
+    <script src="js/boot.js"></script>
+  </body>
+</html>

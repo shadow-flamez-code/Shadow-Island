@@ -1,0 +1,36 @@
+# dependencies
+node_modules/
+
+# build output
+release/
+dist/
+build/
+out/
+
+# python helper builds
+.pybuild/
+bridge/dist/
+__pycache__/
+*.pyc
+bridge/__pycache__/
+
+# local scratch
+.iconbuild/
+*.log
+npm-debug.log*
+yarn-error.log*
+
+# unrelated side project living in the same folder
+windhawk-matter-win10/
+
+# editors / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# local settings
+*.local.json
+.env
+.env.*

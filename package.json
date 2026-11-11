@@ -1,0 +1,60 @@
+{
+  "name": "shadow-island-pc",
+  "version": "1.2.1",
+  "description": "An iPhone-style Dynamic Island for Windows",
+  "main": "src/main.js",
+  "author": "Dynamic Island PC",
+  "license": "MIT",
+  "scripts": {
+    "start": "electron .",
+    "dev": "electron . --dev",
+    "dist": "electron-builder --win portable",
+    "dist:dir": "electron-builder --win --dir",
+    "bridge:build": "python -m PyInstaller --onefile --noconsole --name media-bridge --hidden-import winrt.windows.media.control --hidden-import winrt.windows.storage.streams --distpath bridge/dist --workpath .pybuild/media --specpath .pybuild/media bridge/media_bridge.py && python -m PyInstaller --onefile --noconsole --name volume-bridge --hidden-import pycaw.pycaw --hidden-import comtypes --hidden-import comtypes.client --hidden-import comtypes.automation --distpath bridge/dist --workpath .pybuild/volume --specpath .pybuild/volume bridge/volume_bridge.py && python -m PyInstaller --onefile --noconsole --name system-bridge --distpath bridge/dist --workpath .pybuild/system --specpath .pybuild/system bridge/system_bridge.py"
+  },
+  "build": {
+    "appId": "com.shadowisland.pc",
+    "productName": "Shadow Island",
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "src/**/*",
+      "renderer/**/*",
+      "bridge/**/*.py",
+      "assets/**/*",
+      "package.json"
+    ],
+    "extraResources": [
+      {
+        "from": "bridge/dist",
+        "to": "bridge"
+      },
+      {
+        "from": "assets",
+        "to": "assets"
+      }
+    ],
+    "win": {
+      "target": [
+        "nsis",
+        "portable"
+      ],
+      "icon": "assets/icon.ico"
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "Shadow Island",
+      "menuCategory": "Utilities",
+      "deleteAppDataOnUninstall": false
+    }
+  },
+  "devDependencies": {
+    "electron": "^45.2.3",
+    "electron-builder": "^26.18.0"
+  }
+}
